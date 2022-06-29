@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MovieCats</title>
+    <!--BOOTSTRAP-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!--LOGIN-->
+    <div class="container" id="login_view">
+        <h2>MovieCats</h2>
+        <form class="border border-dark p-3" id="login_form">
+            <div class="mb-3">
+                <label for="user-input" class="form-label">Nombre de Usuario</label>
+                <input type="input" class="form-control" id="user-input">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="pass-input">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="admin-ckbx">
+                <label class="form-check-label" for="admin-ckbx">Administrador</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+        </form>
+    </div>
+    <!--USER_CONTROLS-->
+    <nav class="navbar bg-light" id="user-controls">
+        <div class="container-fluid">
+            <h4 class="navbar-brand" id="user-name"></h4>
+            <input type="button" value="log out" class="btn btn-danger" id="log-out"></a>
+        </div>
+    </nav>
+    <!--VISTA_ADMIN-->
+    <section id="admin_view">
+        <!--ADMIN_LOAD-->
+        <section class="bg-dark text-white">
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-md-3">
+                        <h4>Cargar peliculas</h4>
+                        <input type="file" id="load-movies">
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Cargar clientes</h4>
+                        <input type="file" id="load-users">
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Cargar actores</h4>
+                        <input type="file" id="load-actors">
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Cargar categorias</h4>
+                        <input type="file" id="load-categories">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="d-flex justify-content-center">
+            <div class="border border-dark m-3" id="canva-graphs"></div>
+        </div>
+    </section>
+    <!--VISTA_USER-->
+    <section id="user_view"></section>
+    <!--BOOTSTRAP-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+        integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+        crossorigin="anonymous"></script>
+    <!--D3-GRAPHVIZ-->
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+    <!--SCRIPTS-->
+    <script src="./src/main.js" type="module"></script>
+</body>
+
+</html>
