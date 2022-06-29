@@ -14,6 +14,9 @@ export default class AVLTree{
         this.root = null;
         this.id = 0;
     }
+    isEmpty(){
+        return this.root;
+    }
     insert(data){
         if(this._contains(this.root,data)){
             return false

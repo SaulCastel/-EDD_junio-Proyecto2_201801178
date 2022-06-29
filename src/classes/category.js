@@ -10,6 +10,6 @@ export default class Category{
         return this.id;
     }
     toString(){
-        return `${this.comp}\\n${this.id}`;
+        return `${this.comp}<br/>${this.id}`;
     }
 }

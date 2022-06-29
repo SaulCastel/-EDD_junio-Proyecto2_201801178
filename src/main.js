@@ -1,5 +1,6 @@
 //CLASS IMPORTS
 import Actor from "./classes/actor.js";
+import Category from "./classes/category.js";
 import Graph from "./classes/graph.js";
 import Movie from "./classes/movie.js";
 import UI from "./classes/ui.js";
@@ -7,6 +8,7 @@ import User from "./classes/user.js";
 //DATA_STRUCT IMPORTS
 import AVLTree from "./data_structs/avl_tree.js";
 import BSTree from "./data_structs/bst.js";
+import HashMap from "./data_structs/hash_map.js";
 import LinkedList from "./data_structs/linked_list.js";
 //VARIABLES/CONSTANTS
 const info_admin = {
@@ -24,6 +26,7 @@ const users = new LinkedList();
 users.add(new User(info_admin))
 const movies = new AVLTree();
 const actors = new BSTree();
+const categories = new HashMap(20, 100);
 const ui = new UI();
 const g = new Graph();
 //FUNCTIONS
@@ -55,9 +58,10 @@ function login(user, pass, admin) {
     }
     alert('Usuario no existe')
 }
-ui.showLoginView();
+//STARTING_POINT
+ui.showAdminView({ name: 'Saulin' });
 //EVENTS
-document.getElementById("login_form")
+document.getElementById('login_form')
     .addEventListener('submit', function (e) {
         e.preventDefault();
         const user = document.getElementById('user-input').value;
@@ -70,6 +74,34 @@ document.getElementById('log-out')
         curr_user = null;
         ui.showLoginView();
     });
+document.getElementById('graph-controls')
+    .addEventListener('click', function (e) {
+        const btn = e.target.id;
+        switch (btn) {
+            case 'btn-1':
+                if(movies.isEmpty())
+                g.graphBStree(movies);
+                else alert('Cargue archivo correspondiente')
+                break;
+            case 'btn-2':
+                if(users.isEmpty())
+                g.graphLinkedList(users);
+                else alert('Cargue archivo correspondiente')
+                break;
+            case 'btn-3':
+                if(actors.isEmpty())
+                g.graphBStree(actors);
+                else alert('Cargue archivo correspondiente')
+                break;
+            case 'btn-4':
+                if(categories.isEmpty())
+                g.graphHashMap(categories);
+                else alert('Cargue archivo correspondiente')
+                break;
+            default:
+                break;
+        }
+    });
 //FILE_LOADING
 document.getElementById('load-movies')
     .addEventListener('change', function () {
@@ -79,7 +111,6 @@ document.getElementById('load-movies')
             f.forEach(movie => {
                 movies.insert(new Movie(movie));
             });
-            g.graphBStree(movies);
         };
         fr.readAsText(this.files[0]);
     });
@@ -91,7 +122,6 @@ document.getElementById('load-users')
             f.forEach(user => {
                 users.add(new User(user));
             });
-            g.graphLinkedList(users);
         };
         fr.readAsText(this.files[0]);
     });
@@ -103,7 +133,17 @@ document.getElementById('load-actors')
             f.forEach(actor => {
                 actors.insert(new Actor(actor));
             });
-            g.graphBStree(actors);
+        };
+        fr.readAsText(this.files[0]);
+    });
+document.getElementById('load-categories')
+    .addEventListener('change', function () {
+        let fr = new FileReader();
+        fr.onload = function () {
+            let f = JSON.parse(fr.result);
+            f.forEach(cat => {
+                categories.insert(new Category(cat));
+            });
         };
         fr.readAsText(this.files[0]);
     });

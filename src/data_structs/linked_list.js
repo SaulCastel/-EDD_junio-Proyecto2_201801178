@@ -13,15 +13,18 @@ export default class LinkedList{
         this.len = 0;
         this.id = 0;
     }
+    isEmpty(){
+        return this.head;
+    }
     add(data) {
         let temp = new _Node(this.id++, data);
         if (this.head === null) {
-            this.head = temp
-            this.end = temp
+            this.head = temp;
+            this.end = temp;
         }
         else {
-            this.end.next = temp
-            this.end = temp
+            this.end.next = temp;
+            this.end = temp;
         }
         this.len += 1;
     }

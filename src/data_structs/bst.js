@@ -11,7 +11,9 @@ export default class BSTree {
         this.root = null;
         this.id = 0;
     }
-
+    isEmpty(){
+        return this.root;
+    }
     insert(data) {
         if (this.root === null) {
             this.root = new _Node(data, this.id++);

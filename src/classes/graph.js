@@ -60,21 +60,36 @@ export default class Graph{
         this._render(string);
     }
     graphHashMap(map){
-        let string = 'digraph hashMap_graph{\nnode[shape=box];\n';
+        let string = 'digraph hashMap{\nnode[shape="box"]\nnodesep=0.5;\n';
+        let aux = map.h.head;
+        for (let i = 0; i < map.m; i++) {
+            string += `\t${aux.id}[label="${i}", group=${i}]\n`;
+            if(aux.data != null){
+                string += this._genSubList(aux,i);
+            }
+            aux = aux.next;
+        }
+        aux = map.h.head;
+        string += '{rank=same\n'
+        for (let i = 0; i < map.m; i++) {
+            if(aux.next != null){
+                string += `\t${aux.id}->${aux.next.id}\n`;
+            }
+            aux = aux.next;
+        }
+        string += '}\n}';
         this._render(string);
     }
-    _genSubList(node){
-        let string = 'subgraph {\n';
-        string += '\tnode[shape=plaintext];\n';
-        string += `\t${node.id}_list [label=<\n`;
-        string += '\t<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">\n';
+    _genSubList(node,group){
+        let string = `${node.id}_list [shape=plaintext, label=<\n`;
+        string += '<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">\n';
         let aux = node.data.head;
         for (let i = 0; i < node.data.len; i++) {
             string += `\t<TR><TD>${aux.data}</TD></TR>\n`;
             aux = aux.next;
         }
-        string += '\t</TABLE>>];\n'
-        string += `\t${node.id} -> ${node.id}_list;\n}`;
+        string += `\t</TABLE>>, group=${group}];\n`
+        string += `\t${node.id} -> ${node.id}_list;\n`;
         return string;
     }
 }

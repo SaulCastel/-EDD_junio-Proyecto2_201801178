@@ -10,6 +10,9 @@ export default class HashMap{
             this.h.add(null);
         }
     }
+    isEmpty(){
+        return this.num;
+    }
     insert(k){
         let i = this._divison(k);
         if(this._checkSize()){
