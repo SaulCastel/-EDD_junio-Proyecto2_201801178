@@ -76,7 +76,19 @@
         </div>
     </section>
     <!--VISTA_USER-->
-    <section id="user_view"></section>
+    <section id="user_view">
+        <section class="bg-light py-3">
+            <div class="px-3 d-flex">
+                <select class="me-auto" name="order" id="arrange-movies">
+                    <option value="increasing">ascendente</option>
+                    <option value="decreasing">descendente</option>
+                </select>
+                <div class="btn btn-primary">Ver actores</div>
+                <div class="btn btn-primary ms-2">Ver categorias</div>
+            </div>
+        </section>
+        <div class="container py-3" id="movies"></div>
+    </section>
     <!--BOOTSTRAP-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
         integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"

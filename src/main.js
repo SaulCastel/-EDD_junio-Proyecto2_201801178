@@ -46,7 +46,7 @@ function login(user, pass, admin) {
                     }
                 }
                 else {
-                    ui.showUserView(curr_user);
+                    ui.showUserView(curr_user,movies);
                 }
             }
             else {
@@ -59,7 +59,7 @@ function login(user, pass, admin) {
     alert('Usuario no existe')
 }
 //STARTING_POINT
-ui.showAdminView({ name: 'Saulin' });
+ui.showUserView({ name: 'Saulin' },movies);
 //EVENTS
 document.getElementById('login_form')
     .addEventListener('submit', function (e) {
