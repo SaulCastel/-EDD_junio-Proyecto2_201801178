@@ -46,7 +46,7 @@ function login(user, pass, admin) {
                     }
                 }
                 else {
-                    ui.showUserView(curr_user,movies);
+                    ui.showUserView(curr_user, movies);
                 }
             }
             else {
@@ -59,7 +59,7 @@ function login(user, pass, admin) {
     alert('Usuario no existe')
 }
 //STARTING_POINT
-ui.showUserView({ name: 'Saulin' },movies);
+ui.showLoginView();
 //EVENTS
 document.getElementById('login_form')
     .addEventListener('submit', function (e) {
@@ -74,33 +74,67 @@ document.getElementById('log-out')
         curr_user = null;
         ui.showLoginView();
     });
+//ADMIN_VIEWS
 document.getElementById('graph-controls')
     .addEventListener('click', function (e) {
         const btn = e.target.id;
         switch (btn) {
             case 'btn-1':
-                if(movies.isEmpty())
-                g.graphBStree(movies);
+                if (movies.isEmpty())
+                    g.graphBStree(movies);
                 else alert('Cargue archivo correspondiente')
                 break;
             case 'btn-2':
-                if(users.isEmpty())
-                g.graphLinkedList(users);
+                if (users.isEmpty())
+                    g.graphLinkedList(users);
                 else alert('Cargue archivo correspondiente')
                 break;
             case 'btn-3':
-                if(actors.isEmpty())
-                g.graphBStree(actors);
+                if (actors.isEmpty())
+                    g.graphBStree(actors);
                 else alert('Cargue archivo correspondiente')
                 break;
             case 'btn-4':
-                if(categories.isEmpty())
-                g.graphHashMap(categories);
+                if (categories.isEmpty())
+                    g.graphHashMap(categories);
                 else alert('Cargue archivo correspondiente')
                 break;
             default:
                 break;
         }
+    });
+//USER_VIEWS
+document.getElementById('btn-actors')
+    .addEventListener('click', () => {
+        ui.showActorsView(actors);
+    });
+document.getElementById('arrange-actors')
+    .addEventListener('change', (e) => {
+        switch (e.target.selectedIndex) {
+            case 1:
+                ui.showActors(actors, 'in');
+                break;
+            case 2:
+                ui.showActors(actors, 'pre');
+                break;
+            case 3:
+                ui.showActors(actors, 'post');
+                break;
+            default:
+                break;
+        }
+    });
+document.getElementById('btn-categories')
+    .addEventListener('click', () => {
+        ui.showCategoriesView(categories);
+    });
+document.getElementById('btn-back-actors')
+    .addEventListener('click', () => {
+        ui.showUserView(curr_user, movies);
+    });
+document.getElementById('btn-back-categories')
+    .addEventListener('click', () => {
+        ui.showUserView(curr_user, movies);
     });
 //FILE_LOADING
 document.getElementById('load-movies')

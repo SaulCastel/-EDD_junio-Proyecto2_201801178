@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <!--LOGIN-->
+    <!--LOGIN_VIEW-->
     <div class="container" id="login_view">
         <h2>MovieCats</h2>
         <form class="border border-dark p-3" id="login_form">
@@ -38,7 +38,7 @@
             <input type="button" value="log out" class="btn btn-danger" id="log-out"></a>
         </div>
     </nav>
-    <!--VISTA_ADMIN-->
+    <!--ADMIN_VIEW-->
     <section id="admin_view">
         <!--ADMIN_LOAD-->
         <section class="bg-dark text-white">
@@ -75,19 +75,44 @@
             <div class="border border-dark m-3" id="canva-graphs"></div>
         </div>
     </section>
-    <!--VISTA_USER-->
-    <section id="user_view">
+    <!--USER_VIEW-->
+    <section class="py-3" id="user_view">
+        <div class="px-3 d-flex align-items-center">
+            <select class="me-auto" name="order" id="arrange-movies">
+                <option value="default">ordenar</option>
+                <option value="increasing">ascendente</option>
+                <option value="decreasing">descendente</option>
+            </select>
+            <div class="btn btn-primary" id="btn-actors">Ver actores</div>
+            <div class="btn btn-primary ms-2" id="btn-categories">Ver categorias</div>
+        </div>
+        <div class="container py-3" id="movies"></div>
+    </section>
+    <!--ACTORS_VIEW-->
+    <section class="text-center" id="actors-view">
         <section class="bg-light py-3">
-            <div class="px-3 d-flex">
-                <select class="me-auto" name="order" id="arrange-movies">
-                    <option value="increasing">ascendente</option>
-                    <option value="decreasing">descendente</option>
+            <div class="px-3 d-flex align-items-center">
+                <h3>Actores</h3>
+                <select class="ms-3 me-auto" name="order" id="arrange-actors">
+                    <option value="default">ordenar</option>
+                    <option value="inorder">inOrder</option>
+                    <option value="preorder">preOrder</option>
+                    <option value="postorder">postOrder</option>
                 </select>
-                <div class="btn btn-primary">Ver actores</div>
-                <div class="btn btn-primary ms-2">Ver categorias</div>
+                <div class="btn btn-danger" id="btn-back-actors">regresar</div>
             </div>
         </section>
-        <div class="container py-3" id="movies"></div>
+        <div class="container py-3" id="actors"></div>
+    </section>
+    <!--CATEGORIES_VIEW-->
+    <section class="text-center" id="categories-view">
+        <section class="bg-light py-3">
+            <div class="px-3 d-flex align-items-center">
+                <h3 class="me-auto">Categorias</h3>
+                <div class="btn btn-danger" id="btn-back-categories">regresar</div>
+            </div>
+        </section>
+        <div class="container py-3" id="categories"></div>
     </section>
     <!--BOOTSTRAP-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
