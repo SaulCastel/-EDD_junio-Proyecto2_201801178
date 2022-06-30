@@ -18,26 +18,38 @@ export default class UI {
         document.getElementById('actors-view').style.display = 'none';
         document.getElementById('categories-view').style.display = 'none';
         this._showUserControls(user);
-        this._showMoviesIncreasing(movies);
     }
     _showUserControls(user) {
         document.getElementById('user-controls').style.display = 'block';
         document.getElementById('user-name').textContent = `Usuario: ${user.name}`;
     }
-    _showMoviesIncreasing(tree) {
+    showMovies(tree,reversed=false) {
         if (tree.isEmpty()) {
             const movies = document.getElementById('movies');
             movies.innerHTML = '';
-            this._moviesInOrder(tree.root, movies);
+            if(!reversed){
+                this._inOrderMovies(tree.root, movies);
+            }
+            else{
+                this._inOrderReversedMovies(tree.root,movies);
+            }
         }
     }
-    _moviesInOrder(root, movies) {
+    _inOrderMovies(root, movies) {
         if (root == null) {
             return;
         }
-        this._moviesInOrder(root.left, movies);
+        this._inOrderMovies(root.left, movies);
         movies.appendChild(this._createMovieCard(root.data));
-        this._moviesInOrder(root.right, movies);
+        this._inOrderMovies(root.right, movies);
+    }
+    _inOrderReversedMovies(root, movies) {
+        if (root == null) {
+            return;
+        }
+        this._inOrderReversedMovies(root.right, movies);
+        movies.appendChild(this._createMovieCard(root.data));
+        this._inOrderReversedMovies(root.left, movies);
     }
     _createMovieCard(movie) {
         const movie_div = document.createElement('div');

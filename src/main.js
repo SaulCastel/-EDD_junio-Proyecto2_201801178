@@ -104,6 +104,19 @@ document.getElementById('graph-controls')
         }
     });
 //USER_VIEWS
+document.getElementById('arrange-movies')
+    addEventListener('change', (e) =>{
+        switch (e.target.selectedIndex) {
+            case 1:
+                ui.showMovies(movies);
+                break;
+            case 2:
+                ui.showMovies(movies, true);
+                break;
+            default:
+                break;
+        }
+    });
 document.getElementById('btn-actors')
     .addEventListener('click', () => {
         ui.showActorsView(actors);
@@ -124,13 +137,13 @@ document.getElementById('arrange-actors')
                 break;
         }
     });
+document.getElementById('btn-back-actors')
+        .addEventListener('click', () => {
+            ui.showUserView(curr_user, movies);
+        });
 document.getElementById('btn-categories')
     .addEventListener('click', () => {
         ui.showCategoriesView(categories);
-    });
-document.getElementById('btn-back-actors')
-    .addEventListener('click', () => {
-        ui.showUserView(curr_user, movies);
     });
 document.getElementById('btn-back-categories')
     .addEventListener('click', () => {
