@@ -17,6 +17,15 @@ export default class AVLTree{
     isEmpty(){
         return this.root;
     }
+    search(root, data){
+        if(root == null || root.data == data){
+            return root;
+        }
+        if(root.data < data){
+            return this.search(root.right, data);
+        }
+        return this.search(root.left, data);
+    }
     insert(data){
         if(this._contains(this.root,data)){
             return false

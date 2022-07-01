@@ -21,6 +21,7 @@ const info_admin = {
     "admin": true
 };
 let curr_user = null;
+let curr_movie = null;
 //INSTANCES
 const users = new LinkedList();
 users.add(new User(info_admin))
@@ -116,6 +117,39 @@ document.getElementById('arrange-movies')
             default:
                 break;
         }
+    });
+document.getElementById('movies')
+    .addEventListener('click', (e) => {
+        const mid = e.target.parentElement.getAttribute('mid');
+        switch (e.target.getAttribute('name')) {
+            case 'info':
+                curr_movie = movies.search(movies.root, mid).data;
+                ui.showMovieView(curr_movie);
+                break;
+            case 'rent':
+
+                break;
+            default:
+                break;
+        }
+    });
+document.getElementById('btn-stars')
+    .addEventListener('click', () => {
+        const stars = document.getElementById('stars').value;
+        curr_movie.stars = stars;
+        alert(`Nueva puntuación: ${stars}`)
+    });
+document.getElementById('comment-box')
+    .addEventListener('submit', (e) => {
+        e.preventDefault();
+        const com = document.getElementById('comment-area').value;
+        curr_movie.addComment(curr_user.name, com);
+        document.getElementById('comment-box').reset();
+        ui._fillMovieComments(curr_movie.comments);
+    });
+document.getElementById('btn-back-movie')
+    .addEventListener('click', () => {
+        ui.showUserView(curr_user, movies);
     });
 document.getElementById('btn-actors')
     .addEventListener('click', () => {

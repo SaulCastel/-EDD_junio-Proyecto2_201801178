@@ -6,17 +6,19 @@ export default class UI {
         document.getElementById('user_view').style.display = 'none';
         document.getElementById('actors-view').style.display = 'none';
         document.getElementById('categories-view').style.display = 'none';
+        document.getElementById('movie-view').style.display = 'none';
     }
     showAdminView(user) {
         document.getElementById('login_view').style.display = 'none';
         document.getElementById('admin_view').style.display = 'block';
         this._showUserControls(user);
     }
-    showUserView(user, movies) {
+    showUserView(user) {
         document.getElementById('login_view').style.display = 'none';
         document.getElementById('user_view').style.display = 'block';
         document.getElementById('actors-view').style.display = 'none';
         document.getElementById('categories-view').style.display = 'none';
+        document.getElementById('movie-view').style.display = 'none';
         this._showUserControls(user);
     }
     _showUserControls(user) {
@@ -60,11 +62,36 @@ export default class UI {
         <div class="border border-dark movie">${movie.name}</div>
         <p>id:<br>${movie.id}</p>
         </div>
-        <p>${movie.desc}</p>
-        <div class="btn btn-secondary ms-2">info.</div>
-        <div class="btn btn-success ms-2">comprar</div>
+        <p><b>Descripción:</b> ${movie.desc}</p>
+        <div class="btn btn-secondary ms-2" name="info">info.</div>
+        <div class="btn btn-success ms-2" name="rent">alquilar</div>
         <h5 class="mx-3">Precio:<br>Q${movie.price}</h5>`;
         return movie_div;
+    }
+    showMovieView(movie){
+        document.getElementById('user_view').style.display = 'none';
+        document.getElementById('movie-title').textContent = `${movie.name}`;
+        document.getElementById('movie-desc').innerHTML = `<b>Descripción:</b> ${movie.desc}`;
+        document.getElementById('stars').value = `${movie.stars}`;
+        document.getElementById('movie-price').textContent = `Q${movie.price}`;
+        this._fillMovieComments(movie.comments);
+        document.getElementById('comment-box').reset();
+        document.getElementById('user-controls').style.display = 'none';
+        document.getElementById('movie-view').style.display = 'block';
+    }
+    _fillMovieComments(list){
+        const comments = document.getElementById('comments');
+        comments.innerHTML = '';
+        if(list.isEmpty()){
+            let aux = list.head;
+            while(aux != null){
+                const comment = document.createElement('div');
+                comment.className = 'border border-dark px-3 mb-3 text-wrap text-break';
+                comment.innerHTML = `${aux.data}`;
+                comments.appendChild(comment);
+                aux = aux.next;
+            }
+        }
     }
     showActorsView() {
         document.getElementById('user-controls').style.display = 'none';
