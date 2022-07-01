@@ -47,7 +47,7 @@ function login(user, pass, admin) {
                     }
                 }
                 else {
-                    ui.showUserView(curr_user, movies);
+                    ui.showUserView(curr_user);
                 }
             }
             else {
@@ -120,14 +120,16 @@ document.getElementById('arrange-movies')
     });
 document.getElementById('movies')
     .addEventListener('click', (e) => {
-        const mid = e.target.parentElement.getAttribute('mid');
+        const card = e.target.parentElement;
+        const movie = movies.search(movies.root, card.getAttribute('mid')).data;
         switch (e.target.getAttribute('name')) {
             case 'info':
-                curr_movie = movies.search(movies.root, mid).data;
+                curr_movie = movie;
                 ui.showMovieView(curr_movie);
                 break;
             case 'rent':
-
+                movie.available = false;
+                card.remove();
                 break;
             default:
                 break;
@@ -139,6 +141,13 @@ document.getElementById('btn-stars')
         curr_movie.stars = stars;
         alert(`Nueva puntuación: ${stars}`)
     });
+document.getElementById('btn-rent')
+    .addEventListener('click', (e) => {
+        curr_movie.available = false;
+        alert(`Alquiló: ${curr_movie.name}`)
+        ui.showUserView(curr_user);
+        ui.showMovies(movies);
+    });
 document.getElementById('comment-box')
     .addEventListener('submit', (e) => {
         e.preventDefault();
@@ -149,7 +158,7 @@ document.getElementById('comment-box')
     });
 document.getElementById('btn-back-movie')
     .addEventListener('click', () => {
-        ui.showUserView(curr_user, movies);
+        ui.showUserView(curr_user);
     });
 document.getElementById('btn-actors')
     .addEventListener('click', () => {
@@ -173,7 +182,7 @@ document.getElementById('arrange-actors')
     });
 document.getElementById('btn-back-actors')
         .addEventListener('click', () => {
-            ui.showUserView(curr_user, movies);
+            ui.showUserView(curr_user);
         });
 document.getElementById('btn-categories')
     .addEventListener('click', () => {
@@ -181,7 +190,7 @@ document.getElementById('btn-categories')
     });
 document.getElementById('btn-back-categories')
     .addEventListener('click', () => {
-        ui.showUserView(curr_user, movies);
+        ui.showUserView(curr_user);
     });
 //FILE_LOADING
 document.getElementById('load-movies')

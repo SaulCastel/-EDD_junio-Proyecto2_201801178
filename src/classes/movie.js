@@ -15,6 +15,7 @@ export default class Movie{
         this.stars = puntuacion_star;
         this.price = precio_Q;
         this.comments = new LinkedList();
+        this.available = true;
     }
     valueOf(){
         return this.id;

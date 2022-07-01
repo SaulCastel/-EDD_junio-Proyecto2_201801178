@@ -16,6 +16,7 @@ export default class UI {
     showUserView(user) {
         document.getElementById('login_view').style.display = 'none';
         document.getElementById('user_view').style.display = 'block';
+        document.getElementById('arrange-movies').selectedIndex = 0;
         document.getElementById('actors-view').style.display = 'none';
         document.getElementById('categories-view').style.display = 'none';
         document.getElementById('movie-view').style.display = 'none';
@@ -42,7 +43,9 @@ export default class UI {
             return;
         }
         this._inOrderMovies(root.left, movies);
-        movies.appendChild(this._createMovieCard(root.data));
+        if(root.data.available){
+            movies.appendChild(this._createMovieCard(root.data));
+        }
         this._inOrderMovies(root.right, movies);
     }
     _inOrderReversedMovies(root, movies) {
@@ -50,7 +53,9 @@ export default class UI {
             return;
         }
         this._inOrderReversedMovies(root.right, movies);
-        movies.appendChild(this._createMovieCard(root.data));
+        if(root.data.available){
+            movies.appendChild(this._createMovieCard(root.data));
+        }
         this._inOrderReversedMovies(root.left, movies);
     }
     _createMovieCard(movie) {
@@ -97,6 +102,7 @@ export default class UI {
         document.getElementById('user-controls').style.display = 'none';
         document.getElementById('user_view').style.display = 'none';
         document.getElementById('actors-view').style.display = 'block';
+        document.getElementById('arrange-actors').selectedIndex = 0;
     }
     showActors(tree, type) {
         if(tree.isEmpty()){
