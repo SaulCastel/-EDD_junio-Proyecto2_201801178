@@ -7,11 +7,18 @@ export default class UI {
         document.getElementById('actors-view').style.display = 'none';
         document.getElementById('categories-view').style.display = 'none';
         document.getElementById('movie-view').style.display = 'none';
+        document.getElementById('blockchain-view').style.display = 'none';
     }
     showAdminView(user) {
         document.getElementById('login_view').style.display = 'none';
+        document.getElementById('blockchain-view').style.display = 'none';
         document.getElementById('admin_view').style.display = 'block';
         this._showUserControls(user);
+    }
+    showBlockchainView(){
+        document.getElementById('user-controls').style.display = "none";
+        document.getElementById('admin_view').style.display = 'none';
+        document.getElementById('blockchain-view').style.display = 'block';
     }
     showUserView(user) {
         document.getElementById('login_view').style.display = 'none';

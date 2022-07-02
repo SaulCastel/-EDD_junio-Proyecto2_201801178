@@ -2,33 +2,56 @@ export default class Graph{
     constructor(){
         this.nullCount = 0;
     }
-    _render(string){
-        d3.select("#canva-graphs")
-        .graphviz()
-        .zoom(false)
-        .renderDot(string);
+    _render(string,merkle){
+        if(merkle){
+            d3.select('#canva-merkle')
+            .graphviz()
+            .zoom(false)
+            .width(900)
+            .height(500)
+            .fit(true)
+            .renderDot(string);
+        }
+        else{
+            d3.select('#canva-graphs')
+            .graphviz()
+            .zoom(false)
+            .renderDot(string);
+        }
     }
     //BSTree_methods  
-    graphBStree(tree){
+    graphBStree(tree,merkle=false){
         let string = 'digraph BSTree_graph{\nnode[shape=record];\n';
+        string += 'splines=false;\n';
         string += 'nodesep=1;\n';
         string += 'ranksep=1;\n';
-        string += this._graphNode(tree.root);
+        string += this._graphNode(tree.root,merkle);
         string += '}';
-        this._render(string);
+        if(merkle){
+            this._render(string,merkle);
+        }
+        else{
+            this._render(string);
+        }
     }
-    _graphNode(node){
-        let string = `${node.id}[label="<f0>|<f1>${node.data}|<f2>"];\n`;
+    _graphNode(node,merkle){
+        let string;
+        if(merkle){
+            string = `${node.id}[label="<f0>|<f1>${node.data.slice(0,6)}|<f2>"];\n`;
+        }
+        else{
+            string = `${node.id}[label="<f0>|<f1>${node.data}|<f2>"];\n`;
+        }
         if (node.left){
             string += `${node.id}:f0 -> ${node.left.id}:f1;\n`;
-            string += this._graphNode(node.left);
+            string += this._graphNode(node.left,merkle);
         }
         else{
             string += this._graphNullLeft(node);
         }
         if(node.right){
             string += `${node.id}:f2 -> ${node.right.id}:f1;\n`;
-            string += this._graphNode(node.right);
+            string += this._graphNode(node.right,merkle);
         }
         else{
             string += this._graphNullRight(node);

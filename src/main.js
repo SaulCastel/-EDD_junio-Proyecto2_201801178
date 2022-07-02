@@ -3,6 +3,7 @@ import Actor from "./classes/actor.js";
 import Category from "./classes/category.js";
 import Graph from "./classes/graph.js";
 import Movie from "./classes/movie.js";
+import Rent from "./classes/rent.js";
 import UI from "./classes/ui.js";
 import User from "./classes/user.js";
 //DATA_STRUCT IMPORTS
@@ -10,6 +11,7 @@ import AVLTree from "./data_structs/avl_tree.js";
 import BSTree from "./data_structs/bst.js";
 import HashMap from "./data_structs/hash_map.js";
 import LinkedList from "./data_structs/linked_list.js";
+import MerkleTree from "./data_structs/merkle.js";
 //VARIABLES/CONSTANTS
 const info_admin = {
     "dpi": "2354168452525",
@@ -28,6 +30,8 @@ users.add(new User(info_admin))
 const movies = new AVLTree();
 const actors = new BSTree();
 const categories = new HashMap(20, 100);
+const rents = new LinkedList();
+const merkle = new MerkleTree();
 const ui = new UI();
 const g = new Graph();
 //FUNCTIONS
@@ -80,6 +84,13 @@ document.getElementById('graph-controls')
     .addEventListener('click', function (e) {
         const btn = e.target.id;
         switch (btn) {
+            case 'btn-blockchain':
+                if(rents.isEmpty()){
+                    merkle.genTree(rents);
+                    g.graphBStree(merkle,true);
+                }
+                ui.showBlockchainView();
+                break;
             case 'btn-1':
                 if (movies.isEmpty())
                     g.graphBStree(movies);
@@ -104,6 +115,10 @@ document.getElementById('graph-controls')
                 break;
         }
     });
+document.getElementById('btn-back-blockchain')
+    .addEventListener('click', () => {
+        ui.showAdminView(curr_user);
+    });
 //USER_VIEWS
 document.getElementById('arrange-movies')
     addEventListener('change', (e) =>{
@@ -121,18 +136,21 @@ document.getElementById('arrange-movies')
 document.getElementById('movies')
     .addEventListener('click', (e) => {
         const card = e.target.parentElement;
-        const movie = movies.search(movies.root, card.getAttribute('mid')).data;
-        switch (e.target.getAttribute('name')) {
-            case 'info':
-                curr_movie = movie;
-                ui.showMovieView(curr_movie);
-                break;
-            case 'rent':
-                movie.available = false;
-                card.remove();
-                break;
-            default:
-                break;
+        const movie = movies.search(movies.root, card.getAttribute('mid'));
+        if(movie){
+            switch (e.target.getAttribute('name')) {
+                case 'info':
+                    curr_movie = movie.data;
+                    ui.showMovieView(curr_movie);
+                    break;
+                case 'rent':
+                    movie.data.available = false;
+                    card.remove();
+                    rents.add(new Rent(curr_user.name, movie.data.name));
+                    break;
+                default:
+                    break;
+            }
         }
     });
 document.getElementById('btn-stars')
@@ -142,8 +160,9 @@ document.getElementById('btn-stars')
         alert(`Nueva puntuación: ${stars}`)
     });
 document.getElementById('btn-rent')
-    .addEventListener('click', (e) => {
+    .addEventListener('click', () => {
         curr_movie.available = false;
+        rents.add(new Rent(curr_user.name, curr_movie.name));
         alert(`Alquiló: ${curr_movie.name}`)
         ui.showUserView(curr_user);
         ui.showMovies(movies);

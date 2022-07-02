@@ -75,6 +75,17 @@
             <div class="border border-dark m-3" id="canva-graphs"></div>
         </div>
     </section>
+    <!--BLOCKCHAIN_VIEW-->
+    <section id="blockchain-view">
+        <div class="bg-light p-3 d-flex align-items-center">
+            <h3 class="me-auto">Blockchain</h3>
+            <div class="btn btn-danger" id="btn-back-blockchain">regresar</div>
+        </div>
+        <div class="d-flex flex-column align-items-center py-3">
+            <p>Arbol Merkle:</p>
+            <div class="border border-dark" id="canva-merkle"></div>
+        </div>
+    </section>
     <!--USER_VIEW-->
     <section class="py-3" id="user_view">
         <div class="px-3 d-flex align-items-center">
@@ -126,7 +137,7 @@
             <p class="w-50" id="movie-desc"></p>
             <div class="p-3 m-3">
                 <div class="btn btn-warning" id="btn-stars">cambiar puntuación</div>
-                <input type="number" min="1" max="5" id="stars">
+                <input type="number" min="0" max="5" id="stars">
             </div>
             <div class="p-3 m-3 text-center">
                 <div class="btn btn-success" id="btn-rent">alquilar</div>
