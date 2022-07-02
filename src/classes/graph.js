@@ -7,8 +7,8 @@ export default class Graph{
             d3.select('#canva-merkle')
             .graphviz()
             .zoom(false)
-            .width(900)
-            .height(500)
+            .width('100%')
+            .height('100%')
             .fit(true)
             .renderDot(string);
         }
@@ -22,6 +22,9 @@ export default class Graph{
     //BSTree_methods  
     graphBStree(tree,merkle=false){
         let string = 'digraph BSTree_graph{\nnode[shape=record];\n';
+        if(merkle){
+            string += 'edge[dir=back];\n';
+        }
         string += 'splines=false;\n';
         string += 'nodesep=1;\n';
         string += 'ranksep=1;\n';

@@ -1,7 +1,15 @@
-#canva-graphs, #canva-merkle{
-    width: 900px;
-    height: 500px;
+#canva-graphs{
+    width: 1200px;
+    height: 600px;
     overflow: auto;
+}
+#canva-merkle{
+    width: 100%;
+    height: 700px;
+}
+#canva-blockchain{
+    width: 100%;
+    height: 300px;
 }
 #movies .movie{
     width: 150px;
