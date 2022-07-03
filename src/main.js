@@ -63,6 +63,21 @@ function login(user, pass, admin) {
     }
     alert('Usuario no existe')
 }
+function render(string, selector='graphs'){
+    d3.select(`#canva-${selector}`)
+    .graphviz()
+    .zoom(true)
+    .width('100%')
+    .height('100%')
+    .fit(true)
+    .renderDot(string);
+}
+function downloadGraph() {
+    d3.select('#canva-graphs').graphviz().resetZoom();
+    html2canvas($('#canva-graphs')[0]).then(function (canvas) {
+        return Canvas2Image.saveAsPNG(canvas);
+    });
+}
 //STARTING_POINT
 ui.showLoginView();
 //EVENTS
@@ -84,32 +99,35 @@ document.getElementById('graph-controls')
     .addEventListener('click', function (e) {
         const btn = e.target.id;
         switch (btn) {
-            case 'btn-blockchain':
+            case 'btn-0':
                 if(rents.isEmpty()){
                     merkle.genTree(rents);
-                    g.graphBStree(merkle,true);
+                    render(g.graphBStree(merkle), 'merkle');
                 }
                 ui.showBlockchainView();
                 break;
             case 'btn-1':
                 if (movies.isEmpty())
-                    g.graphBStree(movies);
-                else alert('Cargue archivo correspondiente')
+                    render(g.graphBStree(movies));
+                else alert('Cargue archivo correspondiente');
                 break;
             case 'btn-2':
                 if (users.isEmpty())
-                    g.graphLinkedList(users);
-                else alert('Cargue archivo correspondiente')
+                    render(g.graphLinkedList(users));
+                else alert('Cargue archivo correspondiente');
                 break;
             case 'btn-3':
                 if (actors.isEmpty())
-                    g.graphBStree(actors);
-                else alert('Cargue archivo correspondiente')
+                    render(g.graphBStree(actors));
+                else alert('Cargue archivo correspondiente');
                 break;
             case 'btn-4':
                 if (categories.isEmpty())
-                    g.graphHashMap(categories);
-                else alert('Cargue archivo correspondiente')
+                    render(g.graphHashMap(categories));
+                else alert('Cargue archivo correspondiente');
+                break;
+            case 'btn-5':
+                downloadGraph();
                 break;
             default:
                 break;

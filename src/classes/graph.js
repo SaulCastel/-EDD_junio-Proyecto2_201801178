@@ -2,59 +2,28 @@ export default class Graph{
     constructor(){
         this.nullCount = 0;
     }
-    _render(string,merkle){
-        if(merkle){
-            d3.select('#canva-merkle')
-            .graphviz()
-            .zoom(false)
-            .width('100%')
-            .height('100%')
-            .fit(true)
-            .renderDot(string);
-        }
-        else{
-            d3.select('#canva-graphs')
-            .graphviz()
-            .zoom(false)
-            .renderDot(string);
-        }
-    }
     //BSTree_methods  
-    graphBStree(tree,merkle=false){
+    graphBStree(tree){
         let string = 'digraph BSTree_graph{\nnode[shape=record];\n';
-        if(merkle){
-            string += 'edge[dir=back];\n';
-        }
         string += 'splines=false;\n';
         string += 'nodesep=1;\n';
         string += 'ranksep=1;\n';
-        string += this._graphNode(tree.root,merkle);
+        string += this._graphNode(tree.root);
         string += '}';
-        if(merkle){
-            this._render(string,merkle);
-        }
-        else{
-            this._render(string);
-        }
+        return string;
     }
-    _graphNode(node,merkle){
-        let string;
-        if(merkle){
-            string = `${node.id}[label="<f0>|<f1>${node.data.slice(0,6)}|<f2>"];\n`;
-        }
-        else{
-            string = `${node.id}[label="<f0>|<f1>${node.data}|<f2>"];\n`;
-        }
+    _graphNode(node){
+        let string = `${node.id}[label="<f0>|<f1>${node.data}|<f2>"];\n`;
         if (node.left){
             string += `${node.id}:f0 -> ${node.left.id}:f1;\n`;
-            string += this._graphNode(node.left,merkle);
+            string += this._graphNode(node.left);
         }
         else{
             string += this._graphNullLeft(node);
         }
         if(node.right){
             string += `${node.id}:f2 -> ${node.right.id}:f1;\n`;
-            string += this._graphNode(node.right,merkle);
+            string += this._graphNode(node.right);
         }
         else{
             string += this._graphNullRight(node);
@@ -83,7 +52,7 @@ export default class Graph{
             aux = aux.next;
         }
         string += '}\n}';
-        this._render(string);
+        return string;
     }
     graphHashMap(map){
         let string = 'digraph hashMap{\nnode[shape="box"]\nnodesep=0.5;\n';
@@ -104,7 +73,7 @@ export default class Graph{
             aux = aux.next;
         }
         string += '}\n}';
-        this._render(string);
+        return string;
     }
     _genSubList(node,group){
         let string = `${node.id}_list [shape=plaintext, label=<\n`;
