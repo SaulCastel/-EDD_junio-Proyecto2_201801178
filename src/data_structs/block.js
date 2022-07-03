@@ -1,30 +1,59 @@
-class Block{
-    constructor(){
-        this.index = null;
+import LinkedList from "../data_structs/linked_list.js";
+
+class _Block{
+    constructor({
+        index,
+        timeStamp,
+        prevHash,
+        rootMerkle,
+        data,
+    }){
+        this.index = index;
+        this.timeStamp = timeStamp;
+        this.prevHash = prevHash;
+        this.rootMerkle = rootMerkle;
         this.data = data;
-        this.timeStamp = null;
-        this.prevHash = null;
-        this.nonce = 0;
         this.hash = this._genHash();
+        this.nonce = 0;
         this._proofOfWork();
     }
     _proofOfWork(){
-        while(){
+        while(!this.hash.startsWith('00')){
             this.nonce++;
-            this.hash = this.genHash();
+            this.hash = this._genHash();
         }
     }
     _genHash(){
-        return Sha256.hash(this.index+this.timeStamp+)
+        return Sha256.hash(this.index+this.timeStamp+this.prevHash+this.root+this.nonce);
     }
+    toString(){
+        return `
+        bloque: ${this.index}\\n
+        hash: ${this.hash}\\n
+        nonce: ${this.nonce}\\n
+        prev: ${this.prevHash}\\n
+        rootMerkle: ${this.rootMerkle}\\n
+        transacciones:\\n
+        ${this.data}
+        timeStamp: ${this.timeStamp}
+        `;
+    }
+}
 
-    setdate = () => {
-        var today = new Date();
-        var now = today.toLocaleDateString('en-US')
-        var nowh = today.toLocaleTimeString('en-US');
-        let TimeStamp = now + nowh
-        console.log(TimeStamp.toString())
-        return TimeStamp.toString()
+export default class BlockChain{
+    constructor(){
+        this.blocks = new LinkedList();
+        this.index = 0;
+    }
+    genNewBlock(timeStamp, root, list){
+        const data = {
+            index: this.index++,
+            timeStamp: timeStamp,
+            prevHash: (this.blocks.isEmpty()) ? this.blocks.end.data.hash : '',
+            rootMerkle: root,
+            data: list,
+        };
+        this.blocks.add(new _Block(data));
     }
 }
 

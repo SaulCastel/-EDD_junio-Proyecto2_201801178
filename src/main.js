@@ -8,6 +8,7 @@ import UI from "./classes/ui.js";
 import User from "./classes/user.js";
 //DATA_STRUCT IMPORTS
 import AVLTree from "./data_structs/avl_tree.js";
+import BlockChain from "./data_structs/block.js";
 import BSTree from "./data_structs/bst.js";
 import HashMap from "./data_structs/hash_map.js";
 import LinkedList from "./data_structs/linked_list.js";
@@ -24,14 +25,16 @@ const info_admin = {
 };
 let curr_user = null;
 let curr_movie = null;
+let firstRent = false;
 //INSTANCES
 const users = new LinkedList();
 users.add(new User(info_admin))
 const movies = new AVLTree();
 const actors = new BSTree();
 const categories = new HashMap(20, 100);
-const rents = new LinkedList();
+let rents = new LinkedList();
 const merkle = new MerkleTree();
+const blockChain = new BlockChain();
 const ui = new UI();
 const g = new Graph();
 //FUNCTIONS
@@ -78,6 +81,26 @@ function downloadGraph() {
         return Canvas2Image.saveAsPNG(canvas);
     });
 }
+function getTimeStamp() {
+    var today = new Date();
+    var now = today.toLocaleDateString('en-US')
+    var nowh = today.toLocaleTimeString('en-US');
+    let TimeStamp = `${now} ${nowh}`;
+    return TimeStamp.toString();
+}
+function genNewBlock(){
+    if(firstRent){
+        const data = rents.nodeString();
+        merkle.genTree(rents);
+        blockChain.genNewBlock(getTimeStamp(), merkle.root.data, data);
+        const display = document.getElementById('blockchain-view').style.display;
+        if(display !== 'none'){
+            render(g.graphBStree(merkle), 'merkle');
+            render(g.graphLinkedList(blockChain.blocks),'blockchain');
+        }
+        rents = new LinkedList();
+    }
+}
 //STARTING_POINT
 ui.showLoginView();
 //EVENTS
@@ -100,10 +123,6 @@ document.getElementById('graph-controls')
         const btn = e.target.id;
         switch (btn) {
             case 'btn-0':
-                if(rents.isEmpty()){
-                    merkle.genTree(rents);
-                    render(g.graphBStree(merkle), 'merkle');
-                }
                 ui.showBlockchainView();
                 break;
             case 'btn-1':
@@ -132,6 +151,10 @@ document.getElementById('graph-controls')
             default:
                 break;
         }
+    });
+document.getElementById('btn-blockchain')
+    .addEventListener('click', () => {
+        genNewBlock();
     });
 document.getElementById('btn-back-blockchain')
     .addEventListener('click', () => {
@@ -165,6 +188,7 @@ document.getElementById('movies')
                     movie.data.available = false;
                     card.remove();
                     rents.add(new Rent(curr_user.name, movie.data.name));
+                    if(!firstRent) firstRent = true;
                     break;
                 default:
                     break;
@@ -181,6 +205,7 @@ document.getElementById('btn-rent')
     .addEventListener('click', () => {
         curr_movie.available = false;
         rents.add(new Rent(curr_user.name, curr_movie.name));
+        if(!firstRent) firstRent = true;
         alert(`Alquiló: ${curr_movie.name}`)
         ui.showUserView(curr_user);
         ui.showMovies(movies);

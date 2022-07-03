@@ -28,12 +28,14 @@ export default class MerkleTree{
         return n;
     }
     genTree(list){
-        this.dataBlocks = list;
-        this.curr_block = this.dataBlocks.head;
-        const exp = this._fillDataBlocks();
-        this.root = new _Node(null, this.id++);
-        this._genTreeRec(this.root, exp);
-        this._genHash(this.root);
+        if(list.isEmpty()){
+            this.dataBlocks = list;
+            this.curr_block = this.dataBlocks.head;
+            const exp = this._fillDataBlocks();
+            this.root = new _Node(null, this.id++);
+            this._genTreeRec(this.root, exp);
+            this._genHash(this.root);
+        }
     }
     _genTreeRec(root, exp){
         //pre order traversal
