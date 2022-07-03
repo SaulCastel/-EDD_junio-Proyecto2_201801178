@@ -6,4 +6,7 @@ export default class Rent{
     toString(){
         return `${this.user} - ${this.movie}`;
     }
+    nodeString(){
+        return `${this.toString()}\\n`;
+    }
 }

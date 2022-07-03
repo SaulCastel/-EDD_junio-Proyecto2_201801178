@@ -1,3 +1,5 @@
+import LinkedList from "./linked_list.js";
+
 class _Node{
     constructor(data,id){
         this.data = data;
@@ -11,6 +13,7 @@ export default class MerkleTree{
         this.root = null;
         this.dataBlocks = null;
         this.curr_block = null;
+        this.junkBlocks = null;
         this.id = 0;
     }
     _fillDataBlocks(){
@@ -22,8 +25,9 @@ export default class MerkleTree{
             powerOf2 = Math.pow(2,n);
         }
         //fill data blocks until lenght = powerOf2
+        this.junkBlocks = new LinkedList();
         for (let i = this.dataBlocks.len; i < powerOf2; i++) {
-            this.dataBlocks.add(i*100);
+            this.junkBlocks.add(i*100);
         }
         return n;
     }
@@ -48,7 +52,12 @@ export default class MerkleTree{
         //fill the last level with the hashes of the data blocks
         else{
             root.data = Sha256.hash(this.curr_block.data.toString());
-            this.curr_block = this.curr_block.next;
+            if(this.curr_block.next){
+                this.curr_block = this.curr_block.next;
+            }
+            else{
+                this.curr_block = this.junkBlocks.head;
+            }
         }
     }
     _genHash(root){

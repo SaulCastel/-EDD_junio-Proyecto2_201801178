@@ -26,6 +26,7 @@ const info_admin = {
 let curr_user = null;
 let curr_movie = null;
 let firstRent = false;
+let data = '';
 //INSTANCES
 const users = new LinkedList();
 users.add(new User(info_admin))
@@ -90,7 +91,6 @@ function getTimeStamp() {
 }
 function genNewBlock(){
     if(firstRent){
-        const data = rents.nodeString();
         merkle.genTree(rents);
         blockChain.genNewBlock(getTimeStamp(), merkle.root.data, data);
         const display = document.getElementById('blockchain-view').style.display;
@@ -98,12 +98,24 @@ function genNewBlock(){
             render(g.graphBStree(merkle), 'merkle');
             render(g.graphLinkedList(blockChain.blocks),'blockchain');
         }
-        rents = new LinkedList();
+        data = '';
     }
+}
+function updateRentData(rent){
+    if(!firstRent) firstRent = true;
+    data += rent.nodeString();
+}
+function changeTime(){
+    const time = document.getElementById('time').value;
+    setInterval(genNewBlock, time*1000);
+    alert('tiempo cambiado a: '+ time + ' segundos')
 }
 //STARTING_POINT
 ui.showLoginView();
 //EVENTS
+document.addEventListener('DOMContentLoaded', function() {
+    setInterval(genNewBlock, 300000);
+});
 document.getElementById('login_form')
     .addEventListener('submit', function (e) {
         e.preventDefault();
@@ -156,6 +168,10 @@ document.getElementById('btn-blockchain')
     .addEventListener('click', () => {
         genNewBlock();
     });
+document.getElementById('btn-time')
+    .addEventListener('click', () => {
+        changeTime();
+    });
 document.getElementById('btn-back-blockchain')
     .addEventListener('click', () => {
         ui.showAdminView(curr_user);
@@ -187,8 +203,9 @@ document.getElementById('movies')
                 case 'rent':
                     movie.data.available = false;
                     card.remove();
-                    rents.add(new Rent(curr_user.name, movie.data.name));
-                    if(!firstRent) firstRent = true;
+                    const rent = new Rent(curr_user.name, movie.data.name);
+                    rents.add(rent);
+                    updateRentData(rent);
                     break;
                 default:
                     break;
@@ -204,8 +221,9 @@ document.getElementById('btn-stars')
 document.getElementById('btn-rent')
     .addEventListener('click', () => {
         curr_movie.available = false;
-        rents.add(new Rent(curr_user.name, curr_movie.name));
-        if(!firstRent) firstRent = true;
+        const rent = new Rent(curr_user.name, curr_movie.name);
+        rents.add(rent);
+        updateRentData(rent);
         alert(`Alquiló: ${curr_movie.name}`)
         ui.showUserView(curr_user);
         ui.showMovies(movies);

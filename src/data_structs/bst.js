@@ -15,12 +15,23 @@ export default class BSTree {
         return this.root;
     }
     insert(data) {
-        if (this.root === null) {
-            this.root = new _Node(data, this.id++);
+        if(this._contains(this.root,data)){
+            return false
         }
-        else {
-            this._insertRec(this.root, data);
+        this.root = this._insertRec(this.root, data);
+        return true;
+    }
+    _contains(root,data){
+        if(root == null){
+            return false;
         }
+        if(data < root.data){
+            return this._contains(root.left, data);
+        }
+        if(data > root.data){
+            return this._contains(root.right, data);
+        }
+        return true;
     }
     _insertRec(root, data) {
         if (root === null) {

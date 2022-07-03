@@ -16,15 +16,6 @@ export default class LinkedList{
     isEmpty(){
         return this.head;
     }
-    nodeString(){
-        let string = '';
-        let aux = this.head;
-        while(aux != null){
-            string += `${aux.data}\\n`;
-            aux = aux.next;
-        }
-        return string;
-    }
     add(data) {
         let temp = new _Node(this.id++, data);
         if (this.head === null) {
